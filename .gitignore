@@ -1,0 +1,32 @@
+# Environment variables
+.env
+.env.*
+
+# Dependencies
+node_modules/
+dist/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Workflows / CI
+.github/
+
+# Playwright Specifics
+playwright-report/
+blob-report/
+test-results/
+playwright/.cache/
+
+# System / Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
