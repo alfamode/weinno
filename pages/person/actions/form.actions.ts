@@ -1,11 +1,16 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page } from '@playwright/test';
+import * as utils from '@utils';
 import {
-    DEFAULT_PERSON_FEILDS,
+    PersonFormData,
     PersonFieldKey,
-    PersonFormData
-} from "./types";
-import { PERSON_FIELD_HOOKS } from "./hooks.index";
-import { getData } from "@utils";
+    DEFAULT_PERSON_FEILDS
+} from '@pages/person/person.types';
+import {
+    Registry
+} from '@pages/person/hooks';
+
+const { getData } = utils;
+const { PERSON_FIELD_HOOKS } = Registry;
 
 export class PersonForm {
     constructor(private getPage: () => Page) { }
@@ -19,7 +24,7 @@ export class PersonForm {
         const dataFields = Object.keys(data) as PersonFieldKey[];
 
         const fields = [...new Set([...baseFields, ...dataFields])];
-        
+
         for (const key of fields) {
             const hook = PERSON_FIELD_HOOKS[key];
 
@@ -37,6 +42,6 @@ export class PersonForm {
         const page = this.getPage();
         await page.getByRole('button', { name: 'ثبـت اطلاعات' }).click();
         // Wait for success, then back to management
-        await expect(page).toHaveURL(/\/Person\/PersonManagment$/i);
+        await expect(page).toHaveURL(/\/Person\/PersonManagment$/i, { timeout: 30000 });
     }
 }

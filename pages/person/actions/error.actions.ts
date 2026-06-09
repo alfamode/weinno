@@ -3,7 +3,6 @@ import { expect, Page } from '@playwright/test';
 export class PersonError {
     constructor(private getPage: () => Page) { }
 
-
     async expectFieldInvalid() {
         const page = this.getPage();
 
@@ -16,6 +15,5 @@ export class PersonError {
         }
 
         await page.getByRole('link', { name: 'بازگشت' }).click().catch(() => { });
-
     }
 }

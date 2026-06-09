@@ -1,4 +1,4 @@
-import type { PersonFieldKey } from '@pages/person/types';
+import type { PersonFieldKey } from '@pages/person/person.types';
 import { generateValidNationalCode, generateValidIbanCode } from './factories';
 import { getStandard } from './constants';
 
@@ -11,10 +11,19 @@ export function getRandom(type: FeildKey, data?: string): string {
         case 'iban':
             return generateValidIbanCode(data);
         default:
-            return null;
+            throw new Error(`Unsupported field type: ${type}`);
     }
 }
 
 export function getData(type: FeildKey, data?: string): string {
-    return getRandom(type, data) ?? getStandard(type);
+    try {
+        return getRandom(type, data);
+    }
+    catch (e) {
+        if (e instanceof Error
+            && /unsupported .* type/i.test(e.message))
+            return getStandard(type);
+        else
+            throw e;
+    }
 }

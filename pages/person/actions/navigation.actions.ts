@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test';
-import { PageHandle } from './types';
+import { PageHandle } from '@pages/person/person.types';
 
 export class PersonNavigation {
     private oldPages: Page[] = [];

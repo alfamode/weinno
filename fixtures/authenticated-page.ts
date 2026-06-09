@@ -1,5 +1,6 @@
 import { test as base } from '@playwright/test';
-import { loginViaUi } from '@helpers/loginViaUi';
+import { loginViaUi } from '@helpers/login-via-ui';
+import 'dotenv/config';
 
 type Fixtures = {
   authenticadPage: import('@playwright/test').Page;
@@ -15,13 +16,10 @@ export const test = base.extend<Fixtures>({
     } = process.env;
 
     if (!password || !username || !baseUrl || !captcha) {
-        throw new Error('Required Environment Variables (User/Pass/URL/Captcha) are missing.');
+        throw new Error(`Required Environment Variables (${username ?? '/User'}${password ?? '/Password'}${baseUrl ?? '/URL'}${captcha ?? '/Captcha'}) are missing.`);
     }
 
     await loginViaUi(page, username, password, baseUrl, captcha);
     await use(page);
-    // no special teardown needed usually; Playwright closes page/context
   },
 });
-
-export { expect } from '@playwright/test';

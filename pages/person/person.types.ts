@@ -1,5 +1,35 @@
 import { Page } from '@playwright/test';
 
+export type PersonFormData = Partial<Record<PersonFieldKey, string>>;
+
+export type FieldHook = (ctx: {
+    page: Page;
+    value: string;
+}) => Promise<void>;
+
+export type PageHandle = {
+    get: () => Page;
+    set: (page: Page) => void;
+};
+
+export const DEFAULT_PERSON_FEILDS: PersonFieldKey[] = [
+    'national-code',
+    'date-of-birth',
+    'firstname',
+    'surname',
+    'mobile',
+    'marital-status',
+    'personnel-code',
+    'id-certificate-code',
+    'gender',
+    'province',
+    'town',
+    'organization',
+    'job-title',
+    'address',
+    'person-type',
+];
+
 export type PersonFieldKey =
     | 'nationality'
     | 'national-code'
@@ -53,33 +83,3 @@ export type PersonFieldKey =
     | 'iban'
     | 'personnel-picture-manual-selection'
     | 'signature-manual-selection';
-
-export type PersonFormData = Partial<Record<PersonFieldKey, string>>;
-
-export type FieldHook = (ctx: {
-    page: Page;
-    value: string;
-}) => Promise<void>;
-
-export const DEFAULT_PERSON_FEILDS: PersonFieldKey[] = [
-    'national-code',
-    'date-of-birth',
-    'firstname',
-    'surname',
-    'mobile',
-    'marital-status',
-    'personnel-code',
-    'id-certificate-code',
-    'gender',
-    'province',
-    'town',
-    'organization',
-    'job-title',
-    'address',
-    'person-type',
-];
-
-export type PageHandle = {
-  get: () => Page;
-  set: (page: Page) => void;
-};

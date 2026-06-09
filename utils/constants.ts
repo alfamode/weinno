@@ -1,4 +1,4 @@
-import type { PersonFieldKey } from '@pages/person/types';
+import type { PersonFieldKey } from '@pages/person/person.types';
 
 export function getStandard(type: PersonFieldKey): string {
     // TODO based of type that is PersonFieldKey or CourseFieldKey, 

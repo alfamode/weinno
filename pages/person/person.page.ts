@@ -1,13 +1,15 @@
-import { expect, Page } from '@playwright/test';
-import { PageHandle, PersonFormData } from './types';
-import { PersonNavigation } from './person.navigation';
-import { PersonForm } from './person.form';
-import { PersonError } from './person.error';
+import { Page } from '@playwright/test';
+import {
+    PageHandle,
+    PersonFormData,
+} from '@pages/person/person.types';
+import * as A from '@pages/person/actions';
+import * as F from '@pages/person/flows';
 
 export class PersonPage {
-    readonly navigation: PersonNavigation;
-    readonly form: PersonForm;
-    readonly error: PersonError;
+    readonly navigation: A.PersonNavigation;
+    readonly form: A.PersonForm;
+    readonly error: A.PersonError;
     constructor(private page: Page) {
         const pageHandle: PageHandle = {
             get: () => this.page,
@@ -15,21 +17,18 @@ export class PersonPage {
                 this.page = page;
             },
         };
-        this.navigation = new PersonNavigation(pageHandle);
-        this.form = new PersonForm(pageHandle.get);
-        this.error = new PersonError(pageHandle.get);
+        this.navigation = new A.PersonNavigation(pageHandle);
+        this.form = new A.PersonForm(pageHandle.get);
+        this.error = new A.PersonError(pageHandle.get);
     }
 
-    async defineNewPerson(data: PersonFormData) {
-        try {
-            await this.navigation.toDefinePerson();
-            await this.form.fillDefinitionFields(data);
-            await this.form.submit();
-        }
-        catch (error) {
-            console.error(`There was an error in filling person form: \n${error}`);
-            await this.page.pause();
-            await this.error.expectFieldInvalid();
-        }
+    async flow<T extends F.Registry.FlowName>(
+        name: T,
+        data: PersonFormData
+    ): Promise<ReturnType<typeof F.Registry.flows[T]>> {
+        const flowFunction = F.Registry.flows[name];
+        if (!flowFunction)
+            throw new Error(`Flow "${name}" not found in registry`);
+        return flowFunction(this, data) as ReturnType<typeof F.Registry.flows[T]>;
     }
 }

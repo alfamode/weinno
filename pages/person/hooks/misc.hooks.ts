@@ -1,5 +1,10 @@
-import { FieldHook, PersonFieldKey } from './types';
-import { notImplemented } from './helpers';
+import {
+    PersonFieldKey,
+    FieldHook,
+} from '@pages/person/person.types';
+import {
+    notImplemented,
+} from '@pages/person/hooks/factories';
 
 export const miscKeys = [
     'personnel-picture-manual-selection',
